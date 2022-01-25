@@ -12,22 +12,26 @@ export const ResultWrapper = styled.div`
 
 export const Console = styled.div`
     width: 100%;
-    padding-inline: 20px;
     overflow: hidden;
-
-    color: #fff;
 
     position: absolute;
     bottom: 0;
 
-    background: #383838;
-    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
 
-    .console__head {
-        display: flex;
-        justify-content: space-between;
-        cursor: row-resize;
-    }
+    background: #fff;
+`;
+
+export const ConsoleHead = styled.div`
+    padding-inline: 20px;
+
+    display: flex;
+    justify-content: space-between;
+
+    cursor: row-resize;
+    color: #fff;
+    background: #383838;
 
     .right {
         display: flex;
@@ -42,5 +46,28 @@ export const Console = styled.div`
                 font-size: 25px;
             }
         }
+    }
+`;
+
+export const ConsoleBody = styled.div`
+    flex: 1;
+    padding-inline: 10px;
+    overflow-y: auto;
+
+    // custom scrollbar
+
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: inherit;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: gray;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
     }
 `;

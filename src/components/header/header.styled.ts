@@ -14,7 +14,6 @@ export const HeaderWrapper = styled.header`
     .logo {
         color: #fff;
         font-size: 18px;
-        font-family: 'Courier New', Courier, monospace;
     }
 
     button {
