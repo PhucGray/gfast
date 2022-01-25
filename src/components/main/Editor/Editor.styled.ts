@@ -1,14 +1,13 @@
 import styled from 'styled-components';
 
 export const EditorWrapper = styled.div`
-    /* width: 50vw; */
-    /* width */
     display: flex;
     flex-direction: column;
 `;
 
 export const Tabs = styled.div`
     display: flex;
+    column-gap: 1px;
 
     background: #000;
 
@@ -29,7 +28,8 @@ export const Tab = styled.button<TabProps>`
     column-gap: 10px;
 
     border: none;
-    border-right: 1px solid gray;
+    border: ${(props) => (props.isActive ? '1px solid #fff' : 'none')};
+    border-bottom: none;
     outline: none;
 
     cursor: pointer;

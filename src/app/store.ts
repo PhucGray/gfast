@@ -1,7 +1,8 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import CodeReducer from '../features/code/codeSlice';
 
 export const store = configureStore({
-    reducer: {},
+    reducer: { code: CodeReducer },
 });
 
 export type AppDispatch = typeof store.dispatch;

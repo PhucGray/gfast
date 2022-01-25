@@ -1,11 +1,22 @@
-import Monaco from '@monaco-editor/react';
+import MonacoEditor from '@monaco-editor/react';
 import { emmetCSS, emmetHTML, emmetJSX } from 'emmet-monaco-es';
-import { useState } from 'react';
+import { editor } from 'monaco-editor';
+import { useEffect, useState } from 'react';
 import { AiFillHtml5 } from 'react-icons/ai';
 import { DiCodeigniter, DiCss3, DiJavascript } from 'react-icons/di';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import {
+    selectCss,
+    selectCurrentLanguage,
+    selectHtml,
+    selectJavascript,
+    setCode,
+    setCurrentLanguage,
+} from '../../../features/code/codeSlice';
+import { LanguageType } from '../../../types';
 import { EditorWrapper, Loading, Resizer, Tab, Tabs } from './Editor.styled';
 
-const opts = {
+const opts: editor.IStandaloneEditorConstructionOptions = {
     selectOnLineNumbers: true,
     tabSize: 2,
     minimap: {
@@ -16,7 +27,12 @@ const opts = {
     cursorStyle: 'line',
     fontSize: 17,
     fixedOverflowWidgets: true,
-    wordWrap: 'on',
+    wordWrap: 'bounded',
+    autoClosingBrackets: 'always',
+    autoClosingQuotes: 'always',
+    autoDetectHighContrast: true,
+    formatOnPaste: true,
+    quickSuggestions: true,
 };
 
 const Editor = () => {
@@ -48,38 +64,70 @@ const Editor = () => {
         emmetJSX(monaco, ['jsx', 'javascript', 'typescript']);
     }
 
-    function handleMount(editor: any) {
+    function handleMount(editor: editor.IStandaloneCodeEditor) {
         editor.focus();
-        editor.onDidChangeModel(() => editor.focus());
+        editor.onDidChangeModelLanguage(() => {
+            editor.focus();
+        });
     }
 
     function handleChange(code: any) {
-        console.log(code);
+        dispatch(setCode({ language: currentLanguage, code }));
     }
+
+    //
+
+    const dispatch = useAppDispatch();
+
+    const currentLanguage = useAppSelector(selectCurrentLanguage);
+    const html = useAppSelector(selectHtml);
+    const css = useAppSelector(selectCss);
+    const javascript = useAppSelector(selectJavascript);
+    const currentCode =
+        currentLanguage === 'html'
+            ? html
+            : currentLanguage === 'css'
+            ? css
+            : javascript;
+
+    function setLanguage(language: LanguageType) {
+        dispatch(setCurrentLanguage(language));
+    }
+
+    useEffect(() => {}, [currentLanguage]);
+
     return (
         <>
             <EditorWrapper style={{ width, minWidth: '333px' }}>
                 <Tabs>
-                    <Tab isActive>
+                    <Tab
+                        isActive={currentLanguage === 'html'}
+                        onClick={() => setLanguage('html')}>
                         <AiFillHtml5 color='#e34c26' />
                         {isTooShort || <span>HTML</span>}
                     </Tab>
 
-                    <Tab isActive={false}>
+                    <Tab
+                        isActive={currentLanguage === 'css'}
+                        onClick={() => setLanguage('css')}>
                         <DiCss3 color='#264de4' />
                         {isTooShort || <span>CSS</span>}
                     </Tab>
 
-                    <Tab isActive={false}>
+                    <Tab
+                        isActive={currentLanguage === 'javascript'}
+                        onClick={() => setLanguage('javascript')}>
                         <DiJavascript color='#f0db4f' />
                         {isTooShort || <span>JAVASCRIPT</span>}
                     </Tab>
                 </Tabs>
 
-                <Monaco
+                <MonacoEditor
+                    className='monaco'
                     theme='vs-dark'
                     options={opts}
-                    language='html'
+                    value={currentCode}
+                    language={currentLanguage}
                     beforeMount={handleBeforeMount}
                     onMount={handleMount}
                     onChange={handleChange}
