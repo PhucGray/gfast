@@ -3,7 +3,7 @@ import { FooterWrapper } from './footer.styled';
 
 const Footer = () => {
     return (
-        <FooterWrapper>
+        <FooterWrapper id='footer'>
             <Button>Console</Button>
         </FooterWrapper>
     );

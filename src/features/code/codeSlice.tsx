@@ -6,14 +6,12 @@ interface CodeProps {
     html: string;
     css: string;
     javascript: string;
-    currentLanguage: LanguageType;
 }
 
 const initialState: CodeProps = {
     html: '',
     css: '',
     javascript: '',
-    currentLanguage: 'html',
 };
 
 export interface SetCodeProps {
@@ -45,20 +43,12 @@ const codeSlice = createSlice({
             state.css = '';
             state.javascript = '';
         },
-        setCurrentLanguage: (
-            state,
-            { payload }: PayloadAction<LanguageType>,
-        ) => {
-            state.currentLanguage = payload;
-        },
     },
 });
 
-export const { setCode, clearCode, setCurrentLanguage } = codeSlice.actions;
+export const { setCode, clearCode } = codeSlice.actions;
 export const selectHtml = (state: RootState) => state.code.html;
 export const selectCss = (state: RootState) => state.code.css;
 export const selectJavascript = (state: RootState) => state.code.javascript;
-export const selectCurrentLanguage = (state: RootState) =>
-    state.code.currentLanguage;
 
 export default codeSlice.reducer;

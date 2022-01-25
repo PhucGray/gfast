@@ -7,11 +7,9 @@ import { DiCodeigniter, DiCss3, DiJavascript } from 'react-icons/di';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
     selectCss,
-    selectCurrentLanguage,
     selectHtml,
     selectJavascript,
     setCode,
-    setCurrentLanguage,
 } from '../../../features/code/codeSlice';
 import { LanguageType } from '../../../types';
 import { EditorWrapper, Loading, Resizer, Tab, Tabs } from './Editor.styled';
@@ -79,7 +77,9 @@ const Editor = () => {
 
     const dispatch = useAppDispatch();
 
-    const currentLanguage = useAppSelector(selectCurrentLanguage);
+    const [currentLanguage, setCurrentLanguage] = useState(
+        'html' as LanguageType,
+    );
     const html = useAppSelector(selectHtml);
     const css = useAppSelector(selectCss);
     const javascript = useAppSelector(selectJavascript);
@@ -90,10 +90,6 @@ const Editor = () => {
             ? css
             : javascript;
 
-    function setLanguage(language: LanguageType) {
-        dispatch(setCurrentLanguage(language));
-    }
-
     useEffect(() => {}, [currentLanguage]);
 
     return (
@@ -102,21 +98,21 @@ const Editor = () => {
                 <Tabs>
                     <Tab
                         isActive={currentLanguage === 'html'}
-                        onClick={() => setLanguage('html')}>
+                        onClick={() => setCurrentLanguage('html')}>
                         <AiFillHtml5 color='#e34c26' />
                         {isTooShort || <span>HTML</span>}
                     </Tab>
 
                     <Tab
                         isActive={currentLanguage === 'css'}
-                        onClick={() => setLanguage('css')}>
+                        onClick={() => setCurrentLanguage('css')}>
                         <DiCss3 color='#264de4' />
                         {isTooShort || <span>CSS</span>}
                     </Tab>
 
                     <Tab
                         isActive={currentLanguage === 'javascript'}
-                        onClick={() => setLanguage('javascript')}>
+                        onClick={() => setCurrentLanguage('javascript')}>
                         <DiJavascript color='#f0db4f' />
                         {isTooShort || <span>JAVASCRIPT</span>}
                     </Tab>
