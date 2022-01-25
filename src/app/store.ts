@@ -1,8 +1,7 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import ResizeReducer from '../features/resize/resizeSlice';
 
 export const store = configureStore({
-    reducer: { resize: ResizeReducer },
+    reducer: {},
 });
 
 export type AppDispatch = typeof store.dispatch;

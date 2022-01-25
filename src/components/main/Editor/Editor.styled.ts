@@ -11,7 +11,7 @@ export const Tabs = styled.div`
     background: #000;
 
     .fab {
-        font-size: 25px;
+        font-size: 20px;
     }
 
     .fa-html5 {

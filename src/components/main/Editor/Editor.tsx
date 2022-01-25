@@ -1,13 +1,9 @@
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import {
-    selectEditorW,
-    setEditorW,
-} from '../../../features/resize/resizeSlice';
+import { useState } from 'react';
 import { EditorWrapper, Resizer, Tab, Tabs } from './Editor.styled';
 
 const Editor = () => {
-    const dispatch = useAppDispatch();
-    const width = useAppSelector(selectEditorW);
+    const [width, setWidth] = useState(document.body.clientWidth / 2 - 15);
+    const isTooShort = width < 468;
 
     function handleMouseDown() {
         document.addEventListener('mousemove', startResizing);
@@ -17,7 +13,7 @@ const Editor = () => {
     const startResizing = (e: any) => {
         const ev = e as MouseEvent;
         ev.preventDefault();
-        dispatch(setEditorW(ev.clientX));
+        setWidth(ev.clientX);
     };
 
     function stopResizing() {
@@ -30,17 +26,17 @@ const Editor = () => {
                 <Tabs>
                     <Tab isActive>
                         <i className='fab fa-html5'></i>
-                        <span>HTML</span>
+                        {isTooShort || <span>HTML</span>}
                     </Tab>
 
                     <Tab isActive={false}>
                         <i className='fab fa-css3-alt'></i>
-                        <span>CSS</span>
+                        {isTooShort || <span>CSS</span>}
                     </Tab>
 
                     <Tab isActive={false}>
                         <i className='fab fa-js-square'></i>
-                        <span>JAVASCRIPT</span>
+                        {isTooShort || <span>JAVASCRIPT</span>}
                     </Tab>
                 </Tabs>
 
