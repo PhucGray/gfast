@@ -3,6 +3,8 @@ import styled from 'styled-components';
 export const EditorWrapper = styled.div`
     /* width: 50vw; */
     /* width */
+    display: flex;
+    flex-direction: column;
 `;
 
 export const Tabs = styled.div`
@@ -10,20 +12,8 @@ export const Tabs = styled.div`
 
     background: #000;
 
-    .fab {
-        font-size: 20px;
-    }
-
-    .fa-html5 {
-        color: #e34c26;
-    }
-
-    .fa-css3-alt {
-        color: #264de4;
-    }
-
-    .fa-js-square {
-        color: #f0db4f;
+    svg {
+        font-size: 30px;
     }
 `;
 
@@ -58,4 +48,32 @@ export const Resizer = styled.div`
     background: gray;
 
     cursor: e-resize;
+`;
+
+export const Loading = styled.div`
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 25px;
+
+    svg {
+        animation: bounce 1s infinite;
+        font-size: 30px;
+
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: translateY(-25%);
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+            }
+            50% {
+                transform: translateY(0);
+                animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+            }
+        }
+    }
 `;

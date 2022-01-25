@@ -1,5 +1,6 @@
 import { Button } from '../General';
 import { HeaderWrapper } from './header.styled';
+import { BsFillEraserFill } from 'react-icons/bs';
 
 const Header = () => {
     return (
@@ -7,7 +8,7 @@ const Header = () => {
             <div className='logo'>gfast</div>
 
             <Button>
-                <i className='fas fa-eraser'></i>
+                <BsFillEraserFill />
                 <div>Clear</div>
             </Button>
         </HeaderWrapper>
