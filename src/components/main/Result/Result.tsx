@@ -101,6 +101,7 @@ const Result = () => {
     }
 
     useEffect(() => {
+        console.log('ri12');
         localStorage.removeItem('console');
 
         window.addEventListener('storage', getConsoleFromStorage);

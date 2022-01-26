@@ -1,4 +1,4 @@
-import { checkContentType, DataType } from '../../../../utils/console';
+import { checkContentType } from '../../../../utils/console';
 import ArrayItem from './ArrayItem';
 import ObjectItem from './ObjectItem';
 
@@ -12,7 +12,7 @@ const ConsoleItem = ({ content }: ConsoleItemProps) => {
     return (
         <>
             {contentType === 'string' && (
-                <span style={{ color: '#ec6308' }}>"{content}"</span>
+                <span style={{ color: '#bb4c03' }}>"{content}"</span>
             )}
 
             {(contentType === 'number' || contentType === 'boolean') && (

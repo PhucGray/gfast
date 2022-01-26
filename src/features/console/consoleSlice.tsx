@@ -16,8 +16,7 @@ const consoleSlice = createSlice({
     initialState,
     reducers: {
         setIsConsoleOpen: (state, { payload }: PayloadAction<boolean>) => {
-            if (payload) state.hasNewConsoleData = false;
-
+            state.hasNewConsoleData = false;
             state.isConsoleOpen = payload;
         },
         setHasNewConsoleData: (state) => {
@@ -29,5 +28,6 @@ const consoleSlice = createSlice({
 export const { setIsConsoleOpen, setHasNewConsoleData } = consoleSlice.actions;
 export const selectIsConsoleOpen = (state: RootState) =>
     state.console.isConsoleOpen;
-export const selectHasNewConsoleData = (state: RootState) => state.console.hasNewConsoleData
+export const selectHasNewConsoleData = (state: RootState) =>
+    state.console.hasNewConsoleData;
 export default consoleSlice.reducer;

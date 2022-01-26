@@ -11,8 +11,7 @@ interface CodeProps {
 const initialState: CodeProps = {
     html: '',
     css: '',
-    javascript:
-        'console.log({name: "Phuc", age: 18, address: "HCM", country: "Vietname", phone: "0355784472"})',
+    javascript: '',
 };
 
 export interface SetCodeProps {
