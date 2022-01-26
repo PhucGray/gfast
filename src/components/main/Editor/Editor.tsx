@@ -25,7 +25,7 @@ const opts: editor.IStandaloneEditorConstructionOptions = {
     cursorStyle: 'line',
     fontSize: 17,
     fixedOverflowWidgets: true,
-    wordWrap: 'bounded',
+    wordWrap: 'off',
     autoClosingBrackets: 'always',
     autoClosingQuotes: 'always',
     autoDetectHighContrast: true,
@@ -65,6 +65,10 @@ const Editor = () => {
     function handleMount(editor: editor.IStandaloneCodeEditor) {
         editor.focus();
         editor.onDidChangeModelLanguage(() => {
+            editor.setScrollPosition({
+                scrollTop: -editor.getScrollHeight(),
+                scrollLeft: -editor.getScrollLeft(),
+            });
             editor.focus();
         });
     }

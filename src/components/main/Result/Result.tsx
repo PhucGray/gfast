@@ -117,7 +117,7 @@ const Result = () => {
                 title='result'
                 id='iframe'
                 srcDoc={srcDoc}
-                sandbox='allow-same-origin allow-scripts'
+                sandbox='allow-same-origin allow-scripts allow-modals'
             />
 
             {isConsoleOpen && (
