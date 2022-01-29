@@ -2,36 +2,36 @@ import { useEffect, useState } from 'react';
 import { AiOutlineClear, AiOutlineClose } from 'react-icons/ai';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
-    selectCss,
-    selectHtml,
-    selectJavascript,
+  selectCss,
+  selectHtml,
+  selectJavascript,
 } from '../../../features/code/codeSlice';
 import {
-    selectIsConsoleOpen,
-    setHasNewConsoleData,
-    setIsConsoleOpen,
+  selectIsConsoleOpen,
+  setHasNewConsoleData,
+  setIsConsoleOpen,
 } from '../../../features/console/consoleSlice';
 import { consoleScript } from '../../../utils/customScript';
 import { Button } from '../../General';
 import ConsoleItem from './console/ConsoleItem';
 import {
-    Console,
-    ConsoleBody,
-    ConsoleHead,
-    ResultWrapper,
+  Console,
+  ConsoleBody,
+  ConsoleHead,
+  ResultWrapper,
 } from './result.styled';
 
 const Result = () => {
-    //#region Code
-    const html = useAppSelector(selectHtml);
-    const css = useAppSelector(selectCss);
-    const javascript = useAppSelector(selectJavascript);
+  //#region Code
+  const html = useAppSelector(selectHtml);
+  const css = useAppSelector(selectCss);
+  const javascript = useAppSelector(selectJavascript);
 
-    const [srcDoc, setSrcDoc] = useState('');
+  const [srcDoc, setSrcDoc] = useState('');
 
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            const code = `
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const code = `
             <html>
                 <head>
                     <style>${css}</style>
@@ -44,134 +44,122 @@ const Result = () => {
                 </body>
             </html>`;
 
-            setSrcDoc(code);
-        }, 500);
+      setSrcDoc(code);
+    }, 500);
 
-        return () => clearTimeout(timeout);
-    }, [html, css, javascript]);
-    //#endregion
+    return () => clearTimeout(timeout);
+  }, [html, css, javascript]);
+  //#endregion
 
-    const isConsoleOpen = useAppSelector(selectIsConsoleOpen);
-    const dispatch = useAppDispatch();
+  const isConsoleOpen = useAppSelector(selectIsConsoleOpen);
+  const dispatch = useAppDispatch();
 
-    //#region Resize Console
-    const DEFAULT_HEIGHT = 40;
-    const [height, setHeight] = useState(DEFAULT_HEIGHT);
+  //#region Resize Console
+  const [height, setHeight] = useState(null as number | null);
 
-    function handleMouseDown() {
-        document.addEventListener('mousemove', startResizing);
-        document.addEventListener('mouseup', stopResizing);
-    }
+  function handleMouseDown() {
+    document.addEventListener('mousemove', startResizing);
+    document.addEventListener('mouseup', stopResizing);
+  }
 
-    const startResizing = (e: any) => {
-        const ev = e as MouseEvent;
-        ev.preventDefault();
+  const startResizing = (e: any) => {
+    const ev = e as MouseEvent;
+    ev.preventDefault();
 
-        const footerHeight =
-            document.getElementById('footer')?.offsetHeight || 0;
+    const footerHeight = document.getElementById('footer')?.offsetHeight || 0;
 
-        const currentHeight =
-            document.body.clientHeight - ev.clientY - footerHeight;
+    const currentHeight =
+      document.body.clientHeight - ev.clientY - footerHeight;
 
-        setHeight(currentHeight);
-    };
+    setHeight(currentHeight);
+  };
 
-    function stopResizing() {
-        document.removeEventListener('mousemove', startResizing);
-        document.removeEventListener('mouseup', stopResizing);
-    }
-    //#endregion
+  function stopResizing() {
+    document.removeEventListener('mousemove', startResizing);
+    document.removeEventListener('mouseup', stopResizing);
+  }
+  //#endregion
 
-    //#region Console logic
-    const [consoleData, setConsoleData] = useState([]);
+  //#region Console logic
+  const [consoleData, setConsoleData] = useState([]);
 
-    function getConsoleFromStorage() {
-        const localData = localStorage.getItem('console');
+  function getConsoleFromStorage() {
+    const localData = localStorage.getItem('console');
 
-        const consoleFromStorage = localData && JSON.parse(localData);
+    const consoleFromStorage = localData && JSON.parse(localData);
 
-        setConsoleData(consoleFromStorage);
+    setConsoleData(consoleFromStorage);
 
-        dispatch(setHasNewConsoleData());
-    }
+    dispatch(setHasNewConsoleData());
+  }
 
-    function clearConsole() {
-        localStorage.removeItem('console');
-        setConsoleData([]);
-    }
+  function clearConsole() {
+    localStorage.removeItem('console');
+    setConsoleData([]);
+  }
 
-    useEffect(() => {
-        console.log('ri12');
-        localStorage.removeItem('console');
+  useEffect(() => {
+    localStorage.removeItem('console');
 
-        window.addEventListener('storage', getConsoleFromStorage);
+    window.addEventListener('storage', getConsoleFromStorage);
 
-        return () =>
-            window.removeEventListener('storage', getConsoleFromStorage);
-    }, []);
-    //#endregion
+    return () => window.removeEventListener('storage', getConsoleFromStorage);
+  }, []);
+  //#endregion
 
-    return (
-        <ResultWrapper>
-            <iframe
-                title='result'
-                id='iframe'
-                srcDoc={srcDoc}
-                sandbox='allow-same-origin allow-scripts allow-modals'
-            />
+  return (
+    <ResultWrapper>
+      <iframe
+        title='result'
+        id='iframe'
+        srcDoc={srcDoc}
+        sandbox='allow-same-origin allow-scripts allow-modals'
+      />
 
-            {isConsoleOpen && (
-                <Console
-                    style={{
-                        height,
-                        maxHeight: '100%',
-                        minHeight: DEFAULT_HEIGHT,
-                    }}>
-                    <ConsoleHead
-                        style={{ height: DEFAULT_HEIGHT }}
-                        onMouseDown={handleMouseDown}>
-                        <div style={{ margin: 'auto 0' }}>CONSOLE</div>
+      {isConsoleOpen && (
+        <Console
+          style={{
+            height: height || '50%',
+            maxHeight: '100%',
+            minHeight: 40,
+          }}>
+          <ConsoleHead style={{ height: 40 }} onMouseDown={handleMouseDown}>
+            <div style={{ margin: 'auto 0' }}>CONSOLE</div>
 
-                        <div className='right'>
-                            <Button onClick={clearConsole}>
-                                <AiOutlineClear />
-                            </Button>
+            <div className='right'>
+              <Button onClick={clearConsole}>
+                <AiOutlineClear />
+              </Button>
 
-                            <Button
-                                onClick={() =>
-                                    dispatch(setIsConsoleOpen(false))
-                                }>
-                                <AiOutlineClose />
-                            </Button>
-                        </div>
-                    </ConsoleHead>
+              <Button onClick={() => dispatch(setIsConsoleOpen(false))}>
+                <AiOutlineClose />
+              </Button>
+            </div>
+          </ConsoleHead>
 
-                    <ConsoleBody>
-                        {consoleData &&
-                            consoleData.map((console: any, index) => {
-                                return (
-                                    <div
-                                        key={index}
-                                        style={
-                                            consoleData.length > 0
-                                                ? {
-                                                      borderBottom:
-                                                          '1px solid #cecece',
-                                                      padding: '10px 0',
-                                                  }
-                                                : {}
-                                        }>
-                                        <ConsoleItem
-                                            content={console.content}
-                                        />
-                                    </div>
-                                );
-                            })}
-                    </ConsoleBody>
-                </Console>
-            )}
-        </ResultWrapper>
-    );
+          <ConsoleBody>
+            {consoleData &&
+              consoleData.map((console: any, index) => {
+                return (
+                  <div
+                    key={index}
+                    style={
+                      consoleData.length > 0
+                        ? {
+                            borderBottom: '1px solid #cecece',
+                            padding: '10px 0',
+                          }
+                        : {}
+                    }>
+                    <ConsoleItem content={console.content} />
+                  </div>
+                );
+              })}
+          </ConsoleBody>
+        </Console>
+      )}
+    </ResultWrapper>
+  );
 };
 
 export default Result;
