@@ -74,7 +74,6 @@ const Editor = () => {
   }
 
   function handleChange(code: any) {
-    console.log(currentLanguage, code);
     dispatch(setCode({ language: currentLanguage, code }));
   }
 
