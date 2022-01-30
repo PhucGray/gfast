@@ -98,7 +98,7 @@ const Editor = () => {
 
   return (
     <>
-      <EditorWrapper style={{ width, minWidth: '333px' }}>
+      <EditorWrapper style={{ width }}>
         <Tabs>
           <Tab
             isActive={currentLanguage === 'html'}
