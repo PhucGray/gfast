@@ -9,8 +9,7 @@ interface CodeProps {
 }
 
 const initialState: CodeProps = {
-  html: `<!-- Don't need to link css and javascript -->
-<h1>Hello world</h1>`,
+  html: `<h1>Sunshine chào dev</h1>`,
   css: `h1 {
   color: blue;
 }`,
@@ -20,13 +19,16 @@ const initialState: CodeProps = {
 export interface SetCodeProps {
   language: LanguageType;
   code: string;
+  html: string;
+  css: string;
+  javascript: string;
 }
 
 const codeSlice = createSlice({
   name: 'code',
   initialState,
   reducers: {
-    setCode: (state, { payload }: PayloadAction<SetCodeProps>) => {
+    setCode: (state, { payload }: PayloadAction<any>) => {
       const { language, code } = payload;
 
       if (language === 'html') {

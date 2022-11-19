@@ -73,7 +73,8 @@ const Editor = () => {
     });
   }
 
-  function handleChange(code: any) {
+  function handleChange(code: any) 
+  {
     dispatch(setCode({ language: currentLanguage, code }));
   }
 
@@ -87,14 +88,27 @@ const Editor = () => {
   const html = useAppSelector(selectHtml);
   const css = useAppSelector(selectCss);
   const javascript = useAppSelector(selectJavascript);
-  const currentCode =
-    currentLanguage === 'html'
-      ? html
-      : currentLanguage === 'css'
-      ? css
-      : javascript;
+  // const currentCode =
+  //   currentLanguage === 'html'
+  //     ? html
+  //     : currentLanguage === 'css'
+  //     ? css
+  //     : javascript;
+  const [currentCode, setCurrentCode] = useState(html)
 
-  useEffect(() => {}, [currentLanguage]);
+  useEffect(() => {
+    switch (currentLanguage) {
+      case 'html':
+        setCurrentCode(html)
+        break;
+      case 'css':
+        setCurrentCode(css)
+        break;
+      case 'javascript':
+        setCurrentCode(javascript)
+        break;
+    }
+  }, [currentLanguage]);
 
   return (
     <>
@@ -138,6 +152,10 @@ const Editor = () => {
             </Loading>
           }
         />
+        {/* <Loading>
+              <DiCodeigniter color='#fb0909' />
+              <div>Loading ...</div>
+          </Loading> */}
       </EditorWrapper>
 
       <Resizer onMouseDown={handleMouseDown} />

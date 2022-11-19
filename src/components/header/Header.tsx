@@ -3,7 +3,7 @@ import { HeaderWrapper } from './header.styled';
 import { BsFillEraserFill } from 'react-icons/bs';
 import { useAppDispatch } from '../../app/hooks';
 import { clearCode } from '../../features/code/codeSlice';
-
+import Logo from '../../assets/images/logo.png'
 const Header = () => {
     const dispatch = useAppDispatch();
 
@@ -14,7 +14,8 @@ const Header = () => {
     }
     return (
         <HeaderWrapper>
-            <div className='logo'>gfast</div>
+            {/* <div className='logo'>gfast</div> */}
+            <img src={Logo}/>
 
             <Button onClick={handleClear}>
                 <BsFillEraserFill />
